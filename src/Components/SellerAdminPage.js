@@ -7,12 +7,12 @@ const SellerAdminPage = () => {
 
   const [productList, setproductList] = useState([]);
 
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("items"));
-    if (items) {
-      setItems(items);
+    const productList = JSON.parse(localStorage.getItem("productList"));
+    if (productList) {
+      setproductList(productList);
     }
   }, []);
 
@@ -25,11 +25,7 @@ const SellerAdminPage = () => {
     setsellingPrice(event.target.value);
   };
 
-  const totalprice = (event) =>{
-    var tprice =0;
-    var newprice=setsellingPrice(event.target.value)
-    tprice=tprice+newprice;
-  }
+  
 
   const productNameHandler = (event) => {
     setproductName(event.target.value);
@@ -65,8 +61,13 @@ const SellerAdminPage = () => {
   };
 
   const productDeleteHandler = (productid) => {
-    setproductList();
+    const updatedProductList = productList.filter(prdt => prdt.productId !== productid)
+        setproductList(updatedProductList);
+        localStorage.removeItem(productid)
   };
+
+  // var totalPrice = console.log(productList.reduce((a,v) => a=parseInt(a)+parseInt(v.sellingPrice) ,0 ))
+  
 
   return (
     <div>
@@ -117,8 +118,13 @@ const SellerAdminPage = () => {
         </ul>
         {/* { var totalprice=0
         totalprice=totalprice + {sellingPrice}} */}
-        
-        <label>Total Value worth of Products : {totalprice}</label>
+        {/* {console.log(productList.map((prdt) = (
+            (prdt.reduce((a,v) => a=a+v.sellingPrice ,0 ))
+        )))} */}
+
+        {/* {  totalPrice = productList.reduce((a,v) => a=parseInt(a)+parseInt(v.sellingPrice) ,0 )} */}
+        {/* <label>Total Value worth of Products : + "${totalPrice}" </label> */}
+        <p>{`Total Value worth of Products :   ${productList.reduce((a,v) => a=parseInt(a)+parseInt(v.sellingPrice) , 0)} `}</p>
       </div>
     </div>
   );
