@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+
+
 const SellerAdminPage = () => {
   const [productId, setproductId] = useState("");
   const [sellingPrice, setsellingPrice] = useState("");
@@ -8,13 +10,20 @@ const SellerAdminPage = () => {
   const [productList, setproductList] = useState([]);
 
   // const [items, setItems] = useState([]);
-
   useEffect(() => {
-    const productList = JSON.parse(localStorage.getItem("productList"));
-    if (productList) {
-      setproductList(productList);
+    const productLists = JSON.parse(localStorage.getItem('productList'));
+    console.log(productLists);
+    if (productLists) {
+      setproductList(productLists);
     }
   }, []);
+  // const [key, setKey] = useState(() => {
+  //   // getting stored value
+  //   const saved = localStorage.getItem("productId");
+  //   const initialValue = JSON.parse(saved);
+  //   return initialValue || "";
+  // });
+ 
 
   
   const productIdHandler = (event) => {
@@ -50,15 +59,24 @@ const SellerAdminPage = () => {
         },
       ];
       // console.log("tab",tab);
+      
       return productList;
     });
 
-    localStorage.setItem(productobj.productId, JSON.stringify(productobj));
+   
+
+    // localStorage.setItem(productobj.productId, JSON.stringify(productobj));
 
     setproductId("");
     setsellingPrice("");
     setproductName("");
   };
+  useEffect(() => {
+    
+    localStorage.setItem("productList", JSON.stringify(productList));
+
+  }, [productList]);
+  
 
   const productDeleteHandler = (productid) => {
     const updatedProductList = productList.filter(prdt => prdt.productId !== productid)
